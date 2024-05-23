@@ -1,0 +1,30 @@
+[package]
+name = "pyo3_rust"
+version = "0.1.0"
+edition = "2021"
+
+
+# ======================
+#  pyo3 configuration:
+# ======================
+
+# You can safely remove the code below to let rustimport define your
+# pyo3-configuration automatically. It's still possible to add other
+# configuration or dependencies, or overwrite specific parts here.
+# rustimport will merge your Cargo.toml file into it's generated
+# default configuration.
+[lib]
+# The name of the native library. This is the name which will be used in Python to import the
+# library (i.e. `import pyo3_rust`).
+name = "pyo3_rust"
+# "cdylib" is necessary to produce a shared library for Python to import from.
+# Downstream Rust code (including code in `bin/`, `examples/`, and `examples/`) will not be able
+# to `use pyo3_rust;` unless the "rlib" or "lib" create type is also included, e.g.:
+# crate-type = ["cdylib", "rlib"]
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.21.2", features = ["extension-module", "abi3", "generate-import-lib"] }
+nucleo-matcher = "0.3"
+arboard = "3.4.0"
+infer = "0.15.0"
