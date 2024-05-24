@@ -12,6 +12,8 @@ classifiers = [
 ]
 dynamic = ["version"]
 
-[dependencies]
-rustimport = "1.4.0"
+[project.optional-dependencies]
+ci = [
+    'pyinstaller == 6.7',
+]
 

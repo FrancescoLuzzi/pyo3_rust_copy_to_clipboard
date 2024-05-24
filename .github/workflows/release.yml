@@ -1,0 +1,44 @@
+name: build and release
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v\d+\.\d+\.\d+
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: install deps
+        run: pip install .[ci]
+      - name: package app
+        run: pyinstaller --onefile --noconsole -n copy_to_clipboard main.py
+      - name: zip app
+        run: 7z a -tzip ${{ matrix.os }}.zip dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          path: ${{ matrix.os }}.zip
+          name: ${{ matrix.os }}
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/**
+
+

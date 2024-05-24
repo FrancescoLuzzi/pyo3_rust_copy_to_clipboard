@@ -24,7 +24,7 @@ name = "pyo3_rust"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.21.2", features = ["extension-module", "abi3", "generate-import-lib"] }
+pyo3 = { version = "0.21.2", features = ["extension-module", "abi3", "generate-import-lib", "abi3-py38"] }
 nucleo-matcher = "0.3"
 arboard = "3.4.0"
 infer = "0.15.0"

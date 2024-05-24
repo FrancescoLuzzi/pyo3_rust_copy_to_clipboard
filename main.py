@@ -1,22 +1,10 @@
 import os
-
-is_dev = os.environ.get("PY_DEVELOP", None)
-
-if is_dev and is_dev != "0":
-    import rustimport.settings
-    import rustimport.import_hook
-else:
-    import sys
-
-    sys.path.append(".")
-
 from pyo3_rust import Matcher, Clipboard
 import tkinter as tk
 from tkinter import ttk
 from typing import Any, Callable, List, Optional
 import sys
 from threading import Timer
-from os import listdir
 
 
 def main():
@@ -25,7 +13,7 @@ def main():
 
     def make_handler(file: str) -> Callable[[Any], None]:
         def handler(_):
-            clipboard.set_from_path(os.path.join("./test_dir/", file))
+            clipboard.set_from_path(os.path.join("./", file))
 
         return handler
 
@@ -109,7 +97,7 @@ def main():
 
     # Set the geometry of window
     win.geometry("%dx%d+%d+%d" % (width, height, x, y))
-    examples = listdir("./test_dir")
+    examples = os.listdir(".")
     labels = LabelFrame(win)
 
     def add_elements(search: str):
